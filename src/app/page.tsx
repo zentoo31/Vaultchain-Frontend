@@ -31,7 +31,7 @@ export default function Home() {
             href="/register"
             className="text-blue-500 hover:underline"
           >
-            Register
+            Request your register
           </Link>
 
         </div>
