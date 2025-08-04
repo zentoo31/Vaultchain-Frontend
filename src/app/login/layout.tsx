@@ -5,10 +5,14 @@ export const metadata: Metadata = {
   title: "Sign In - VaultChain"
 };
 
-function LoginLayout() {
+function LoginLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;  
+}>) {
   return (
     <div>
-      
+       {children}
     </div>
   )
 }
