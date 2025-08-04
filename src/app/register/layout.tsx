@@ -5,10 +5,14 @@ export const metadata: Metadata = {
   title: "Register - VaultChain"
 };
 
-function RegisterLayout() {
+function RegisterLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
     <div>
-      
+      {children}    
     </div>
   )
 }
