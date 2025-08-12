@@ -12,7 +12,7 @@ import { Button } from '@/components/ui/button';
 
 function Login() {
   const sucess = (message:string) => toast.success(message, toastGeneralOptions);
-  const error = (message: string) => toast.error(message, toastGeneralOptions);
+  const errorn = (message: string) => toast.error(message, toastGeneralOptions);
   const [isLoading, setIsLoading] = useState(false);
   const authService = new AuthService();
   const credentials: LoginDTO = {
@@ -34,10 +34,12 @@ function Login() {
     setIsLoading(true);
     try {
       const user = await authService.login(logintDTO);
-      sucess('Login successful!');
       console.log('Logged in user:', user);
-    } catch (err) {
-      error(typeof err === 'string' ? err : 'Login failed. Please try again.');
+      sucess('Login successful!');
+    } catch (err: any) {
+      const error = err.message ? err.message : 'Login failed. Please try again.';
+      console.log('Login error:', error);
+      errorn(error)
     } finally { 
       setIsLoading(false);
     }
