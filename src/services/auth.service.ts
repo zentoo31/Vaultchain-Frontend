@@ -1,17 +1,17 @@
-import axios from 'axios';
+import axios, {AxiosError} from 'axios';
 import { User } from '@/interfaces/user';
 import { LoginDTO } from '@/dto/loginDTO';
 import { RegisterDTO } from '@/dto/registerDTO';
 export class AuthService {
-    private readonly apiUrl: string = process.env.API_BACKEND_URL || 'http://localhost:3000/api';
+    private readonly apiUrl: string = process.env.API_BACKEND_URL || 'http://localhost:4321';
 
     async login(credentials: LoginDTO): Promise<User> {
         try {
-            const response = await axios.post<User>(`${this.apiUrl}/auth/login`, credentials);
+            const response = await axios.post<User>(`${this.apiUrl}/auth/login`, credentials, {withCredentials: true});
             return response.data;
         } catch (error) {
-            console.error('Login failed:', error);
-            throw new Error('Login failed. Please check your credentials and try again.');
+            const axiosError = error as AxiosError;
+            throw this.handleError(axiosError);
         }
     }
 
@@ -20,8 +20,20 @@ export class AuthService {
             const response = await axios.post<any>(`${this.apiUrl}/auth/register`, userData);
             return response.data;
         } catch (error) {
-            console.error('Registration failed:', error);
-            throw new Error('Registration failed. Please check your details and try again.');
+            throw error;
+        }
+    }
+
+    private handleError(error: AxiosError): Error {
+        if (error.response) {
+            const status = error.response.status;
+            const data = error.response.data as { error?: string; message?: string };
+            const errorMessage = data?.error || data?.message || error.message;
+            return new Error(`${errorMessage}`);
+        } else if (error.request) {
+            return new Error('No se recibió respuesta del servidor');
+        } else {
+            return new Error('Error al configurar la solicitud: ' + error.message);
         }
     }
     
