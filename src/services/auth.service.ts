@@ -24,6 +24,30 @@ export class AuthService {
         }
     }
 
+    async verifyToken(cookie?: string){
+        try {
+            const response = await axios.get(`${this.apiUrl}/auth/verify-token`,
+                 {
+                    headers:{
+                        Cookie: cookie
+                    },
+                    withCredentials: true});
+            return response;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async logout(): Promise<any> {
+        try {
+            const response =  await axios.post<any>(`${this.apiUrl}/auth/logout`, {}, {withCredentials: true});
+            return response.data;
+        } catch (error) {
+            const axiosError = error as AxiosError;
+            throw this.handleError(axiosError);
+        }
+    }
+
     private handleError(error: AxiosError): Error {
         if (error.response) {
             const status = error.response.status;
