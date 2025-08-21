@@ -1,9 +1,10 @@
 import axios, { AxiosError } from "axios";
 import { handleError } from "@/utils/errorHandler";
 import { ProfileInfo } from "@/interfaces/profile-info";
+import { getApiUrl } from "@/utils/env";
 
 export class ProfileService {
-    private readonly apiUrl: string = `${process.env.API_BACKEND_URL}/profile` || 'http://localhost:4321/profile';
+    private readonly apiUrl: string = `${getApiUrl()}/profile`;
     
     async getProfileInfo(): Promise<ProfileInfo> {
         try {
