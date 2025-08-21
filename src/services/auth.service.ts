@@ -4,7 +4,7 @@ import { LoginDTO } from '@/dto/loginDTO';
 import { RegisterDTO } from '@/dto/registerDTO';
 import { handleError } from '@/utils/errorHandler';
 export class AuthService {
-    private readonly apiUrl: string = process.env.API_BACKEND_URL || 'http://localhost:4321/auth';
+    private readonly apiUrl: string = `${process.env.API_BACKEND_URL+"/auth"}` || 'http://localhost:4321/auth';
 
     async login(credentials: LoginDTO): Promise<User> {
         try {
