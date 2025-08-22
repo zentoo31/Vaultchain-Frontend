@@ -48,8 +48,8 @@ function Dashboard() {
 
   return (
     <div className='font-sans flex flex-col gap-4'>
-      <div className="flex flex-row gap-2 p-4 justify-between border-b-gray-500 border-[0.5px] items-center" onClick={() => router.push('/login')}>
-        <Button className="flex flex-row items-center gap-2 rounded-lg bg-gray-100 px-2 text-black cursor-pointer hover:bg-gray-200">
+      <div className="flex flex-row gap-2 p-4 justify-between border-b-gray-500 border-[0.5px] items-center">
+        <Button className="flex flex-row items-center gap-2 rounded-lg bg-gray-100 px-2 text-black cursor-pointer hover:bg-gray-200" onClick={() => router.push('/login')}>
           <CgProfile size={18} />
           <span className="">{profile?.email}</span>
         </Button>
