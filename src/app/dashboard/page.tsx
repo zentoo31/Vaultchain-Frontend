@@ -1,4 +1,5 @@
 "use client"
+import { AuthService } from "@/services/auth.service";
 import { ProfileService } from "@/services/profile.service";
 import { ProfileInfo } from "@/interfaces/profile-info";
 import { useEffect, useState } from "react";
@@ -11,10 +12,23 @@ import { useRouter } from "next/navigation";
 
 function Dashboard() {
   const router = useRouter();
+  const authService = new AuthService();
   const profileService = new ProfileService();
   const [profile, setProfile] = useState<ProfileInfo | null>(null);
   const success = (message: string) => toast.success(message, toastGeneralOptions);
   const errorn = (message: string) => toast.error(message, toastGeneralOptions);
+
+  const handleLogout = async () => {
+    try {
+      await authService.logout();
+      success('Logged out successfully!');
+      router.push('/login');
+    } catch (error) {
+      const errMsg = error instanceof Error ? error.message : 'Logout failed.';
+      console.log('Error during logout:', errMsg);
+      errorn(errMsg);
+    }
+  }
 
   const getProfileInfo = async () => {
     try {
@@ -45,7 +59,7 @@ function Dashboard() {
         </div>
 
         <div>
-          <Button className="bg-red-500 hover:bg-red-600 text-white cursor-pointer">
+          <Button className="bg-red-500 hover:bg-red-600 text-white cursor-pointer" onClick={handleLogout}>
             Logout
           </Button>
         </div>
