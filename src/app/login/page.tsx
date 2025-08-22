@@ -9,8 +9,10 @@ import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '@/components/ui/button';
+import { useRouter } from 'next/navigation';
 
 function Login() {
+  const router = useRouter();
   const sucess = (message:string) => toast.success(message, toastGeneralOptions);
   const errorn = (message: string) => toast.error(message, toastGeneralOptions);
   const [isLoading, setIsLoading] = useState(false);
@@ -36,6 +38,9 @@ function Login() {
       const user = await authService.login(logintDTO);
       console.log('Logged in user:', user);
       sucess('Login successful!');
+      setTimeout(() => {
+        router.push('/dashboard');
+      }, 500);
     } catch (err: any) {
       const error = err.message ? err.message : 'Login failed. Please try again.';
       console.log('Login error:', error);
